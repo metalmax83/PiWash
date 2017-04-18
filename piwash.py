@@ -105,14 +105,12 @@ def buttonCallback(pin):
 		currentMenuItemFunc()
 
 def setupPins():
-	gpio.setup(pinDown,gpio.IN,pull_up_down=gpio.PUD_UP)
-	gpio.add_event_detect(pinDown, gpio.RISING, callback=buttonCallback, bouncetime=250)
-	gpio.setup(pinUp,gpio.IN,pull_up_down=gpio.PUD_UP)
-	gpio.add_event_detect(pinUp, gpio.RISING, callback=buttonCallback, bouncetime=250)
-	gpio.setup(pinStart,gpio.IN,pull_up_down=gpio.PUD_UP)
-	gpio.add_event_detect(pinStart, gpio.RISING, callback=buttonCallback, bouncetime=250)
-	gpio.setup(pinMotor,gpio.OUT)
-	gpio.output(pinMotor,gpio.HIGH)
+	for pin in [pinUp,pinDown,pinStart,pinBack]:
+		gpio.setup(pin,gpio.IN,pull_up_down=gpio.PUD_UP)
+		gpio.add_event_detect(pin, gpio.RISING, callback=buttonCallback, bouncetime=250)
+	for pin in [pinMotor]:
+		gpio.setup(pin,gpio.OUT)
+		gpio.output(pin,gpio.HIGH)
 
 def startCleaning():
 	global currentlyBlocked
